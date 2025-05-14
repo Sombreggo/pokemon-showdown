@@ -13877,6 +13877,23 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {
 		maxMove: { basePower: 130 },
 		contestType: "Cool",
 	},
+	pipebomb: {
+        	num: 1000,
+        	accuracy: 100,
+        	basePower: 90,
+        	category: "Physical",
+        	name: "Pipe Bomb",
+        	pp: 10,
+        	priority: 0,
+        	flags: { contact: 1, protect: 1, mirror: 1 },
+        	secondary: {
+            		chance: 100,
+            		status: 'brn',
+        	},
+        	target: "normal",
+        	type: "Fire",
+        	contestType: "Cool",
+    	},
 	plasmafists: {
 		num: 721,
 		accuracy: 100,

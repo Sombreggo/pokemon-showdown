@@ -566,6 +566,19 @@ export const Abilities: import('../sim/dex-abilities').AbilityDataTable = {
 		rating: 2,
 		num: 29,
 	},
+	cleanse: {
+		onEnd(pokemon) {
+			if (pokemon.status) {
+			this.debug('cleanse');
+			this.add('-activate', pokemon, 'ability: Cleanse');
+			pokemon.cureStatus();
+			
+		},
+		flags: { breakable: 1 },
+		name: "Cleanse",
+		rating: 2,
+		num: 29000,
+	},
 	cloudnine: {
 		onSwitchIn(pokemon) {
 			// Cloud Nine does not activate when Skill Swapped or when Neutralizing Gas leaves the field

@@ -573,7 +573,7 @@ export const Abilities: import('../sim/dex-abilities').AbilityDataTable = {
 			this.debug('shed skin');
 			this.add('-activate', pokemon, 'ability: Cleanse');
 			pokemon.cureStatus();
-		}
+		},
 		flags: { breakable: 1 },
 		name: "Cleanse",
 		rating: 2,

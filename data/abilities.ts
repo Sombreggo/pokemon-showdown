@@ -268,10 +268,6 @@ export const Abilities: import('../sim/dex-abilities').AbilityDataTable = {
 		onSourceAfterFaint(length, target, source, effect) {
 			if (effect && effect.effectType === 'Move') {
 				this.boost({ atk: length }, source, source, this.dex.abilities.get('chillingneigh'));
-			}
-		},
-		onSourceAfterFaint(length, target, source, effect) {
-			if (effect && effect.effectType === 'Move') {
 				this.boost({ spa: length }, source, source, this.dex.abilities.get('grimneigh'));
 			}
 		},

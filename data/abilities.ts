@@ -567,10 +567,8 @@ export const Abilities: import('../sim/dex-abilities').AbilityDataTable = {
 		num: 29,
 	},
 	cleanse: {
-		onEnd(pokemon) {
-			if (pokemon.status) {
-			this.debug('cleanse');
-			this.add('-activate', pokemon, 'ability: Cleanse');
+		onEnd(pokemon) 
+		{	if (pokemon.status);
 			pokemon.cureStatus();
 			
 		},

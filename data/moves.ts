@@ -1847,6 +1847,74 @@ export const Moves: import('../sim/dex-moves').MoveDataTable = {
 		type: "Flying",
 		contestType: "Cool",
 	},
+	breakdownblitz: {
+		num: 2030400,
+		accuracy: 90,
+		basePower: 30,
+		basePowerCallback(pokemon, target, move) {
+			let bp = move.basePower;
+			const breakdownblitzData = pokemon.volatiles['breakdownblitz'];
+			if (breakdownblitzData?.hitCount) {
+				bp *= 2 ** breakdownblitzData.contactHitCount;
+			}
+			if (breakdownblitzData && pokemon.status !== 'slp') {
+				breakdownblitzData.hitCount++;
+				breakdownblitzData.contactHitCount++;
+				if (breakdownblitzData.hitCount < 5) {
+					breakdownblitzData.duration = 2;
+				}
+			}
+			if (pokemon.volatiles['defensecurl']) {
+				bp *= 2;
+			}
+			this.debug(`BP: ${bp}`);
+			return bp;
+		},
+		category: "Physical",
+		name: "Breakdown Blitz",
+		pp: 20,
+		priority: 0,
+		flags: { contact: 1, protect: 1, mirror: 1, metronome: 1, failinstruct: 1, bullet: 1, noparentalbond: 1 },
+		recoil: [25, 100],
+		onModifyMove(move, pokemon, target) {
+			if (pokemon.volatiles['breakdownblitz'] || pokemon.status === 'slp' || !target) return;
+			pokemon.addVolatile('breakdownblitz');
+			if (move.sourceEffect) pokemon.lastMoveTargetLoc = pokemon.getLocOf(target);
+		},
+		onAfterMove(source, target, move) {
+			const breakdownblitzData = source.volatiles["breakdownblitz"];
+			if (
+				breakdownblitzData &&
+				breakdownblitzData.hitCount === 5 &&
+				breakdownblitzData.contactHitCount < 5
+				// this conditions can only be met in gen7 and gen8dlc1
+				// see `disguise` and `iceface` abilities in the resp mod folders
+			) {
+				source.addVolatile("rolloutstorage");
+				source.volatiles["rolloutstorage"].contactHitCount =
+				breakdownblitzData.contactHitCount;
+			}
+		},
+
+		condition: {
+			duration: 1,
+			onLockMove: 'breakdownblitz',
+			onStart() {
+				this.effectState.hitCount = 0;
+				this.effectState.contactHitCount = 0;
+			},
+			onResidual(target) {
+				if (target.lastMove && target.lastMove.id === 'struggle') {
+					// don't lock
+					delete target.volatiles['breakdownblitz'];
+				}
+			},
+		},
+		secondary: null,
+		target: "normal",
+		type: "Fire",
+		contestType: "Beautiful",
+	},
 	breakingswipe: {
 		num: 784,
 		accuracy: 100,
